@@ -1,0 +1,132 @@
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
+public class Percolation {
+    // number of open sites
+    private int openSites;
+    // 2D array that tracks which sites are open
+    private boolean[][] open;
+    // size of grid
+    private int size;
+    // keeps track of which sites are connected
+    private WeightedQuickUnionUF grid;
+    // keeps track of connected sites not connected to main path
+    private WeightedQuickUnionUF backwash;
+
+    // creates n-by-n grid, with all sites initially blocked
+    public Percolation(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("Grid size cannot be zero or negative");
+        }
+        size = n;
+        openSites = 0;
+        grid = new WeightedQuickUnionUF((int) Math.pow(size, 2) + 2);
+        backwash = new WeightedQuickUnionUF((int) Math.pow(size, 2) + 2);
+        open = new boolean[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                open[i][j] = false;
+            }
+        }
+    }
+
+    // checks if coordinate is within grid
+    private void validIndex(int row, int col) {
+        if (row >= size || col >= size || row < 0 || col < 0) {
+            throw new IllegalArgumentException("Invalid index");
+        }
+    }
+
+    // converts 2d coordinate to 1d
+    private int convert2dTo1d(int row, int col) {
+        return row * size + col;
+    }
+
+    // opens the site (row, col) if it is not open already
+    public void open(int row, int col) {
+        validIndex(row, col);
+        if (open[row][col])
+            return;
+        open[row][col] = true;
+        openSites++;
+        int oneD = convert2dTo1d(row, col);
+        if (row == 0) {
+            grid.union(oneD, (int) Math.pow(size, 2));
+            backwash.union(oneD, (int) Math.pow(size, 2));
+        }
+        if (row == size - 1) {
+            if (open[row][col]) {
+                grid.union(oneD, (int) Math.pow(size, 2) + 1);
+            }
+        }
+        if (row < size - 1) {
+            if (open[row + 1][col]) {
+                grid.union(oneD, convert2dTo1d(row + 1, col));
+                if (row != size) {
+                    backwash.union(oneD, convert2dTo1d(row + 1, col));
+                }
+            }
+        }
+        if (row > 0) {
+            if (open[row - 1][col]) {
+                grid.union(oneD, convert2dTo1d(row - 1, col));
+                backwash.union(oneD, convert2dTo1d(row - 1, col));
+            }
+        }
+
+        if (col < size - 1) {
+            if (open[row][col + 1]) {
+                grid.union(oneD, convert2dTo1d(row, col + 1));
+                backwash.union(oneD, convert2dTo1d(row, col + 1));
+            }
+        }
+        if (col > 0) {
+            if (open[row][col - 1]) {
+                grid.union(oneD, convert2dTo1d(row, col - 1));
+                backwash.union(oneD, convert2dTo1d(row, col - 1));
+            }
+        }
+
+    }
+
+    // is the site (row, col) open?
+    public boolean isOpen(int row, int col) {
+        validIndex(row, col);
+        return open[row][col];
+    }
+
+    // is the site (row, col) full?
+    public boolean isFull(int row, int col) {
+        validIndex(row, col);
+        if (open[row][col]) {
+            if (backwash.find(convert2dTo1d(row, col)) == backwash.
+                    find((int) Math.pow(size, 2)))
+                return true;
+        }
+        return false;
+    }
+
+    // returns the size of open sites
+    public int numberOfOpenSites() {
+        return openSites;
+    }
+
+    // does the system percolate?
+    public boolean percolates() {
+        if (grid.find((int) Math.pow(size, 2)) == grid
+                .find((int) Math.pow(size, 2) + 1)) {
+            return true;
+        }
+        return false;
+    }
+
+    // unit testing
+    public static void main(String[] args) {
+        Percolation test = new Percolation(25);
+        test.open(2, 2);
+        System.out.println(test.isOpen(2, 2));
+        System.out.println(test.isFull(2, 2));
+        System.out.println(test.numberOfOpenSites());
+        System.out.println(test.percolates());
+
+    }
+}
