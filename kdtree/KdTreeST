@@ -1,0 +1,319 @@
+import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.RectHV;
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdOut;
+
+public class KdTreeST<Value> {
+    private Node root; // root node
+
+    private class Node {
+        Point2D p;     // the point
+        Value val;     // the symbol table maps the point to this value
+        RectHV rect;   // the axis-aligned rectangle corresponding to this node
+        Node lb;       // the left/bottom subtree
+        Node rt; // the right/top subtree
+        int size; // amount of nodes on tree
+
+        // Node Helper Method
+        public Node(
+                Point2D key, Value val, Node lb, Node rt, RectHV rect, int size) {
+            this.p = key;
+            this.val = val;
+            this.lb = lb;
+            this.rt = rt;
+            this.rect = rect;
+            this.size = size;
+        }
+    }
+
+    // construct an empty symbol table of points
+    public KdTreeST() {
+    }
+
+    // is the symbol table empty?
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    // number of points
+    public int size() {
+        return size(root);
+    }
+
+    // returns size of Node x
+    private int size(Node x) {
+        if (x == null)
+            return 0;
+        return x.size;
+    }
+
+    // associate the value val with point p
+    public void put(Point2D key, Value val) {
+        if (key == null || val == null) {
+            throw new IllegalArgumentException("argument to put() is null");
+        }
+
+        // constructs first rect/range for root node
+        RectHV rect = new RectHV(
+                Double.NEGATIVE_INFINITY, // xmin
+                Double.NEGATIVE_INFINITY, // ymin
+                Double.POSITIVE_INFINITY,  // xmax
+                Double.POSITIVE_INFINITY); // ymax
+
+        root = put(root, key, val, true, rect);
+    }
+
+    // private put function
+    private Node put(Node x, Point2D key, Value val, boolean vert, RectHV r) {
+        // put in root node
+        if (x == null) return new Node(key, val, null, null, r, 1);
+
+        // accounts for duplicate key & returns root node
+        if (x.p.equals(key)) {
+            x.val = val;
+            return x;
+        }
+        RectHV rect;
+        // even layers (compare x coords)
+        if (vert) {
+            // if query point lies to left of point associated with node
+            if (key.x() < x.p.x()) {
+                // constructs new rect bounds
+                rect = new RectHV(r.xmin(), r.ymin(), x.p.x(), r.ymax());
+                // iterates through rest of subtree to determine where to put
+                // point (continues swimming pt down)
+                x.lb = put(x.lb, key, val, !vert, rect);
+            }
+            else {
+                rect = new RectHV(x.p.x(), r.ymin(), r.xmax(), r.ymax()); // +
+                x.rt = put(x.rt, key, val, !vert, rect);
+            }
+        }
+        // odd layers (compare y coords)
+        else {
+            if (key.y() < x.p.y()) {
+                rect = new RectHV(r.xmin(), r.ymin(), r.xmax(), x.p.y());
+                x.lb = put(x.lb, key, val, !vert, rect);
+            }
+            else {
+                rect = new RectHV(r.xmin(), x.p.y(), r.xmax(), r.ymax());
+                x.rt = put(x.rt, key, val, !vert, rect);
+            }
+        }
+        x.size = size(x.lb) + size(x.rt) + 1;
+        return x;
+    }
+
+    // value associated with point p
+    public Value get(Point2D key) {
+        if (key == null)
+            throw new IllegalArgumentException("argument to get() is null");
+        return get(root, key, true);
+    }
+
+    // // private get recursive func to avoid duplication
+    private Value get(Node x, Point2D key, boolean vert) {
+        if (x == null) return null;
+        double cmp; // number indicating location of key
+        if (vert) {
+            cmp = key.x() - x.p.x();
+        }
+        else {
+            cmp = key.y() - x.p.y();
+        }
+        // to the left/under
+        if (cmp < 0) return get(x.lb, key, !vert);
+            // to right/above
+        else if (cmp > 0) return get(x.rt, key, !vert);
+            // when key is found in tree
+        else if (x.p.equals(key)) return x.val;
+        /* if same x/y coord, go right (bc right subtree ranges don't include the
+        left bound */
+        else return get(x.rt, key, !vert);
+    }
+
+    // does the symbol table contain point p?
+    public boolean contains(Point2D key) {
+        return get(key) != null;
+    }
+
+    // all points in the symbol table
+    public Iterable<Point2D> points() {
+        // keep track of which nodes need to be searched thru
+        Queue<Node> nodes = new Queue<Node>();
+        Queue<Point2D> points = new Queue<Point2D>();
+        nodes.enqueue(root);
+        while (!nodes.isEmpty()) {
+            // remove least recent node
+            Node x = nodes.dequeue();
+            if (x == null) continue;
+            points.enqueue(x.p);
+            /* add left and right subtree nodes to list of nodes that need to
+            be traversed */
+            nodes.enqueue(x.lb);
+            nodes.enqueue(x.rt);
+        }
+        return points;
+    }
+
+    // all points that are inside the rectangle (or on the boundary)
+    public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null)
+            throw new IllegalArgumentException("arg to range() is null");
+        Stack<Point2D> rangeOfPoints = new Stack<Point2D>();
+        return range(root, rect, rangeOfPoints);
+    }
+
+    // private range func
+    private Iterable<Point2D> range(
+            Node x, RectHV rect, Stack<Point2D> rangeOfPoints) {
+        if (x == null)
+            return rangeOfPoints;
+        // target rectangle lies outside of range of root rectangle
+        if (!x.rect.intersects(rect)) {
+            return rangeOfPoints;
+        }
+
+        if (rect.contains(x.p)) {
+            rangeOfPoints.push(x.p);
+        }
+
+        if (x.lb != null) {
+            range(x.lb, rect, rangeOfPoints);
+        }
+        if (x.rt != null) {
+            range(x.rt, rect, rangeOfPoints);
+        }
+
+        return rangeOfPoints;
+    }
+
+    // a nearest neighbor of point p; null if the symbol table is empty
+    public Point2D nearest(Point2D key) {
+        if (key == null)
+            throw new IllegalArgumentException("arg to nearest() is null");
+        if (isEmpty()) {
+            return null;
+        }
+        return nearest(root, key, root.p);
+    }
+
+    // private nearest func
+    private Point2D nearest(Node x, Point2D key, Point2D min) {
+        if (x == null)
+            return null;
+
+        if (key.distanceSquaredTo(x.p) < key.distanceSquaredTo(min)) {
+            min = x.p;
+        }
+
+        // recursively explore left subtree if key is within the left subtree rectangle
+        if (x.lb != null && x.lb.rect.contains(key)) {
+            Point2D left = nearest(x.lb, key, min);
+            if (left != null &&
+                    key.distanceSquaredTo(left) < key.distanceSquaredTo(min))
+                min = left;
+        }
+
+        // recursively explore right subtree if key is
+        // within the right subtree rectangle
+        if (x.rt != null && x.rt.rect.contains(key)) {
+            Point2D right = nearest(x.rt, key, min);
+            if (right != null &&
+                    key.distanceSquaredTo(right) < key.distanceSquaredTo(min))
+                min = right;
+        }
+
+        // node to check further exploration of left subtree
+        // if target key isnt contained in node rect
+        Node lbOutRect = null;
+        // same but for right subtree
+        Node rtOutRect = null;
+
+        // case where key is not within left subtree rectangle
+        if (x.lb != null && !x.lb.rect.contains(key) &&
+                x.lb.rect.distanceSquaredTo(key) < min.distanceSquaredTo(key)) {
+            lbOutRect = x.lb;
+        }
+        // case where key is not within right subtree rectangle
+        if (x.rt != null && !x.rt.rect.contains(key) &&
+                x.rt.rect.distanceSquaredTo(key) < min.distanceSquaredTo(key)) {
+            rtOutRect = x.rt;
+        }
+        // if right rectangle is closer to key than left rectangle then go right
+        if (lbOutRect != null && rtOutRect != null
+                && x.rt.rect.distanceSquaredTo(key)
+                < x.lb.rect.distanceSquaredTo(key)) {
+            lbOutRect = rtOutRect;
+            rtOutRect = x.lb;
+        }
+        // case where "left rectangle" (could be right)
+        // is closer to key than current min to key
+        if (lbOutRect != null &&
+                lbOutRect.rect.distanceSquaredTo(key) <
+                        min.distanceSquaredTo(key)) {
+            Point2D leftPoint = nearest(lbOutRect, key, min);
+            if (leftPoint != null &&
+                    key.distanceSquaredTo(leftPoint) <
+                            key.distanceSquaredTo(min))
+                min = leftPoint;
+        }
+        // case where right rectangle is closer to key than current min to key
+        if (rtOutRect != null &&
+                rtOutRect.rect.distanceSquaredTo(key) <
+                        min.distanceSquaredTo(key)) {
+            Point2D rightPoint = nearest(rtOutRect, key, min);
+            if (rightPoint != null &&
+                    key.distanceSquaredTo(rightPoint)
+                            < key.distanceSquaredTo(min))
+                min = rightPoint;
+        }
+
+        return min;
+    }
+
+    // unit testing (required)
+    public static void main(String[] args) {
+
+
+        KdTreeST<Integer> test = new KdTreeST<>();
+        StdOut.println("The table is empty = " + test.isEmpty());
+        Point2D a = new Point2D(1, 2);
+        Point2D b = new Point2D(2, 2);
+        Point2D c = new Point2D(3, 3);
+
+        test.put(a, 4);
+        test.put(b, 1);
+        test.put(c, 2);
+
+        StdOut.println("The table continas point c = " + test.contains(c));
+        StdOut.println("size = " + test.size());
+        StdOut.println("Value at point a = " + test.get(a));
+        StdOut.println(test.points());
+        RectHV tester = new RectHV(2.0, 2.0, 4.0, 6.0);
+        StdOut.println(test.range(tester));
+        StdOut.println(test.nearest(b));
+
+        // timing analysis code
+
+        // String filename = args[0];
+        // In in = new In(filename);
+        // KdTreeST<Double> table = new KdTreeST<>();
+        // while (!in.isEmpty()) {
+        //     double x = in.readDouble();
+        //     double y = in.readDouble();
+        //     Point2D test = new Point2D(x, y);
+        //     table.put(test, 1.0);
+        // }
+        // Stopwatch timer = new Stopwatch();
+        // for (int i = 0; i < 1000000; i++) {
+        //     double x = StdRandom.uniformDouble(0.0, 1.0);
+        //     double y = StdRandom.uniformDouble(0.0, 1.0);
+        //     Point2D p = new Point2D(x, y);
+        //     table.nearest(p);
+        // }
+        // StdOut.println("time = " + timer.elapsedTime());
+    }
+
+}
