@@ -22,10 +22,10 @@
   <tr>
     <td>
      <div align="center">
-       <a href="https://github.com/ryanalbertson/COS226_Princeton_University/tree/master/Assignment1"> Assignment 1 </a>
+       <a href="https://github.com/angelztang/cos226/tree/master/percolation"> Assignment 1 </a>
      </div>
-     <a href="https://www.cs.princeton.edu/courses/archive/spring20/cos226/assignments/percolation/specification.php">
-       <img src="./Assignment1/src/resources/logo.png" width = 300>
+     <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/percolation/specification.php">
+       <img src="./percolation/src/resources/logo.png" width = 300>
      </a>
     </td>
     <td>
@@ -38,10 +38,10 @@
   <tr>
     <td>
       <div align="center">
-        <a href="https://github.com/ryanalbertson/COS226_Princeton_University/tree/master/Assignment2"> Assignment 2 </a>
+        <a href="https://github.com/angelztang/cos226/tree/master/queues"> Assignment 2 </a>
       </div>
-      <a href="https://www.cs.princeton.edu/courses/archive/spring20/cos226/assignments/queues/specification.php">
-        <img src="./Assignment2/src/resources/logo.png" width = 400>
+      <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/queues/specification.php">
+        <img src="./queues/src/resources/logo.png" width = 400>
       </a>       
     </td>
     <td>
@@ -54,10 +54,10 @@
    <tr>
     <td>
       <div align="center">
-        <a href="https://github.com/ryanalbertson/COS226_Princeton_University/tree/master/Assignment3"> Assignment 3 </a>
+        <a href="https://github.com/angelztang/cos226/tree/master/autocomplete"> Assignment 3 </a>
       </div>
-      <a href="https://www.cs.princeton.edu/courses/archive/spring20/cos226/assignments/autocomplete/specification.php">
-        <img src="./Assignment3/src/resources/logo.png" width = 300>
+      <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/autocomplete/specification.php">
+        <img src="./autocomplete/src/resources/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -70,26 +70,10 @@
    <tr>
     <td>
       <div align="center">
-        <a href="https://github.com/ryanalbertson/COS226_Princeton_University/tree/master/Assignment4"> Assignment 4 </a>
+        <a href="https://github.com/angelztang/cos226/tree/master/kdtree"> Assignment 4 </a>
       </div>
-      <a href="https://www.cs.princeton.edu/courses/archive/spring20/cos226/assignments/8puzzle/specification.php">
-        <img src="./Assignment4/src/resources/logo.png" width = 300>
-      </a>       
-    </td>
-    <td>
-      <div align="center"> Solver for any <a href="https://en.wikipedia.org/wiki/15_puzzle"> k-puzzle </a> </div>
-    </td>
-    <td>
-     <div align="center"> A* search, priority queues/heaps, heapsort </div>
-    </td>
-  </tr>
-   <tr>
-    <td>
-      <div align="center">
-        <a href="https://github.com/ryanalbertson/COS226_Princeton_University/tree/master/Assignment5"> Assignment 5 </a>
-      </div>
-      <a href="https://www.cs.princeton.edu/courses/archive/spring20/cos226/assignments/kdtree/specification.php">
-        <img src="./Assignment5/src/resources/logo.png" width = 300>
+      <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/kdtree/specification.php">
+        <img src="./kdtree/src/resources/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -102,10 +86,10 @@
    <tr>
     <td>
       <div align="center">
-        <a href="https://github.com/ryanalbertson/COS226_Princeton_University/tree/master/Assignment6"> Assignment 6 </a>
+        <a href="https://github.com/angelztang/cos226/tree/master/wordnet"> Assignment 5 </a>
       </div>
-      <a href="https://www.cs.princeton.edu/courses/archive/spring20/cos226/assignments/wordnet/specification.php">
-        <img src="./Assignment6/src/resources/logo.png" width = 300>
+      <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/wordnet/specification.php">
+        <img src="./wordnet/src/resources/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -118,10 +102,10 @@
    <tr>
     <td>
       <div align="center">
-        <a href="https://github.com/ryanalbertson/COS226_Princeton_University/tree/master/Assignment7"> Assignment 7 </a>
+        <a href="https://github.com/angelztang/cos226/tree/master/seam"> Assignment 6 </a>
       </div>
-      <a href="https://www.cs.princeton.edu/courses/archive/spring20/cos226/assignments/seam/specification.php">
-        <img src="./Assignment7/src/resources/logo.png" width = 300>
+      <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/seam/specification.php">
+        <img src="./seam/src/resources/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -129,6 +113,23 @@
     </td>
     <td>
       <div align="center"> Bellman-Ford algorithm, Dijkstra's algorithm, Ford-Fulkerson algorithm, MinCuts, MaxFlows </div>
+    </td>
+  </tr>
+    </tr>
+   <tr>
+    <td>
+      <div align="center">
+        <a href="https://github.com/angelztang/cos226/tree/master/fraud"> Assignment 7 </a>
+      </div>
+      <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/fraud/specification.php">
+        <img src="./fraud/src/resources/logo.png" width = 300>
+      </a>       
+    </td>
+    <td>
+      <div align="center"> Machine learning model to detect fraudulent credit card transactions </div>
+    </td>
+    <td>
+      <div align="center"> k-means clustering, dimensionality reduction, decision stumps, AdaBoost algorithm, weighted voting </div>
     </td>
   </tr>
 </table>
