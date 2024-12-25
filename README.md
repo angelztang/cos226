@@ -41,7 +41,7 @@
         <a href="https://github.com/angelztang/cos226/tree/master/queues"> Assignment 2 </a>
       </div>
       <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/queues/specification.php">
-        <img src="./queues/src/resources/logo.png" width = 400>
+        <img src="./queues/logo.png" width = 400>
       </a>       
     </td>
     <td>
@@ -57,7 +57,7 @@
         <a href="https://github.com/angelztang/cos226/tree/master/autocomplete"> Assignment 3 </a>
       </div>
       <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/autocomplete/specification.php">
-        <img src="./autocomplete/src/resources/logo.png" width = 300>
+        <img src="./autocomplete/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -73,7 +73,7 @@
         <a href="https://github.com/angelztang/cos226/tree/master/kdtree"> Assignment 4 </a>
       </div>
       <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/kdtree/specification.php">
-        <img src="./kdtree/src/resources/logo.png" width = 300>
+        <img src="./kdtree/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -89,7 +89,7 @@
         <a href="https://github.com/angelztang/cos226/tree/master/wordnet"> Assignment 5 </a>
       </div>
       <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/wordnet/specification.php">
-        <img src="./wordnet/src/resources/logo.png" width = 300>
+        <img src="./wordnet/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -105,7 +105,7 @@
         <a href="https://github.com/angelztang/cos226/tree/master/seam"> Assignment 6 </a>
       </div>
       <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/seam/specification.php">
-        <img src="./seam/src/resources/logo.png" width = 300>
+        <img src="./seam/logo.png" width = 300>
       </a>       
     </td>
     <td>
@@ -122,7 +122,7 @@
         <a href="https://github.com/angelztang/cos226/tree/master/fraud"> Assignment 7 </a>
       </div>
       <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/fraud/specification.php">
-        <img src="./fraud/src/resources/logo.png" width = 300>
+        <img src="./fraud/logo.png" width = 300>
       </a>       
     </td>
     <td>
