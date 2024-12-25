@@ -25,7 +25,7 @@
        <a href="https://github.com/angelztang/cos226/tree/master/percolation"> Assignment 1 </a>
      </div>
      <a href="https://www.cs.princeton.edu/courses/archive/spring24/cos226/assignments/percolation/specification.php">
-       <img src="./percolation/src/resources/logo.png" width = 300>
+       <img src="[./percolation/src/resources/logo.png](https://www.cs.princeton.edu/courses/archive/spring24/cos226/images/assignment-logos/600-by-400/percolation.png)" width = 300>
      </a>
     </td>
     <td>
